@@ -2,9 +2,7 @@ import serverlessExpress from "@vendia/serverless-express";
 import bodyParser from "body-parser";
 import express, { NextFunction, Request, Response } from "express";
 
-import subtaskRouter from "./router/subtaskRouter";
 import taskRouter from "./router/taskRouter";
-
 const app = express();
 app.use(bodyParser.json());
 
@@ -13,7 +11,6 @@ app.get("/", (_, res) => {
 });
 
 app.use("/task", taskRouter);
-app.use("/subtask", subtaskRouter);
 
 app.use(
   (err: Error, _req: Request, res: Response, _next: NextFunction): void => {
