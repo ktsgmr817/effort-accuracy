@@ -6,12 +6,11 @@ const options = {
 };
 
 // URLの共通部分を設定
-export const clickupClient = applyCaseMiddleware(
+export const slackClient = applyCaseMiddleware(
   axios.create({
-    baseURL: `${process.env.CLICKUP_URL}/api/v2/`,
+    baseURL: `${process.env.SLACK_WEBHOOK_URL}`,
     headers: {
       "Content-Type": "application/json",
-      Authorization: process.env.CLICKUP_API_TOKEN,
     },
   }),
   options

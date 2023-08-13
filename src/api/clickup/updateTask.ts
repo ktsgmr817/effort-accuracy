@@ -1,11 +1,13 @@
 import { clickupClient } from "./clickupClient";
+import { TCustomField } from "./getTask";
 
 export const updateTask = async (
   taskId: string,
-  fieldId: string,
-  value: number
+  field: TCustomField,
+  updateValue: number
 ) => {
-  await clickupClient.post(`/task/${taskId}/field/${fieldId}`, {
-    value,
+  if (Number(field.value) === updateValue) return;
+  await clickupClient.post(`/task/${taskId}/field/${field.id}`, {
+    value: updateValue,
   });
 };

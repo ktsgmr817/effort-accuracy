@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { getTask } from "../api/clickup/getTask";
 import { updateTask } from "../api/clickup/updateTask";
+import { postMessage } from "../api/slack/postCalcMessage";
 import { calcParentAccuracy } from "../calcParentAccuracy";
 
 type TQuery = {
@@ -15,18 +16,15 @@ export const closed = async (
   console.log(taskId);
   const task = await getTask(taskId);
   console.log("gettask");
-  const accuracyTask = task.customFields.find(
+  const accuracyField = task.customFields.find(
     (field) => field.name === "accuracy"
   );
-  const accuracy = await calcParentAccuracy(task);
+  const calcuratedTask = await calcParentAccuracy(task);
   console.log("calc");
-  if (
-    accuracyTask !== undefined &&
-    accuracy !== null &&
-    Number(accuracyTask.value) !== accuracy
-  ) {
-    await updateTask(task.id, accuracyTask.id, accuracy);
-    console.log("accuracy: ", accuracy);
+  if (accuracyField !== undefined && calcuratedTask !== null) {
+    await updateTask(task.id, accuracyField, calcuratedTask.accuracy);
+    await postMessage(calcuratedTask);
+    console.log("accuracy: ", calcuratedTask.accuracy);
   }
-  res.status(200).send({ req: req.query.taskId });
+  res.status(200).send({ accuracy: calcuratedTask?.accuracy });
 };
