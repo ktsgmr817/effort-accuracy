@@ -4,7 +4,7 @@ import {
 } from "../../calcParentAccuracy";
 import { slackClient } from "./slackClient";
 
-const formatMiliSeconds = (miliSec: number) => {
+const formatMilliSeconds = (miliSec: number) => {
   const sec = miliSec / 1000;
   const hours = Math.floor(sec / 3600);
   const minutes = Math.floor((sec % 3600) / 60);
@@ -23,9 +23,9 @@ const createSubtasksMessage = (subtasks: TSubtaskCalcurated[]) => {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `*${subtask.name}*\n想定工数 ：\t\t\t\t${formatMiliSeconds(
+        text: `*${subtask.name}*\n想定工数 ：\t\t\t\t${formatMilliSeconds(
           subtask.timeEstimate
-        )}\n実績工数 ：\t\t\t\t${formatMiliSeconds(
+        )}\n実績工数 ：\t\t\t\t${formatMilliSeconds(
           subtask.duration
         )}\n見積もり誤差 ：\t\t±${Math.round(subtask.accuracy * 10) / 10} %\n`,
       },
@@ -36,7 +36,7 @@ const createSubtasksMessage = (subtasks: TSubtaskCalcurated[]) => {
 const createMessage = (calcuratedTask: TParentTaskCalcurated) => {
   const subtasksMessage = createSubtasksMessage(calcuratedTask.subtasks);
   return {
-    // channel: "#times_sugimori",
+    channel: "#times_sugimori",
     blocks: [
       {
         type: "header",
@@ -52,9 +52,9 @@ const createMessage = (calcuratedTask: TParentTaskCalcurated) => {
           type: "mrkdwn",
           text: `*タスク名* ：\t\t\t\t${
             calcuratedTask.name
-          }\n *想定工数* ：\t\t\t\t${formatMiliSeconds(
+          }\n *想定工数* ：\t\t\t\t${formatMilliSeconds(
             calcuratedTask.timeEstimate
-          )}\n *実績工数* ：\t\t\t\t${formatMiliSeconds(
+          )}\n *実績工数* ：\t\t\t\t${formatMilliSeconds(
             calcuratedTask.duration
           )}\n*見積もり誤差* ：\t\t±${calcuratedTask.accuracy} %\n`,
         },
