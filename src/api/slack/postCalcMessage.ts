@@ -9,7 +9,6 @@ const formatMilliSeconds = (miliSec: number) => {
   const hours = Math.floor(sec / 3600);
   const minutes = Math.floor((sec % 3600) / 60);
   const seconds = Math.floor(sec % 60);
-  console.log(hours, minutes, seconds);
   return `${hours.toString().padStart(2, "0")}h${minutes
     .toString()
     .padStart(2, "0")}m${seconds.toString().padStart(2, "0")}s`;
